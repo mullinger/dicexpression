@@ -1,4 +1,4 @@
-package dicexpression;
+package dicexpression.ch.ullinger.dicexpression;
 
 
 import static org.junit.Assert.assertEquals;
