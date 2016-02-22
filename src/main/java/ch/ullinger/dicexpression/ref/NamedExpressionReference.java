@@ -13,7 +13,7 @@ public class NamedExpressionReference implements Expression {
 
     @Override
     public int evaluate() {
-        Expression expression = NamedExpressionStore.getInstance().lookupExpression(name);
+        Expression expression = NamedExpressionStoreFactory.getInstance().getExpression(name);
 
         int result = 0;
         if (expression != null) {

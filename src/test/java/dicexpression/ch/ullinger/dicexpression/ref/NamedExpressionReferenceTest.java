@@ -9,7 +9,9 @@ import ch.ullinger.dicexpression.base.ConstantExpression;
 import ch.ullinger.dicexpression.op.MaxExpression;
 import ch.ullinger.dicexpression.op.SumExpression;
 import ch.ullinger.dicexpression.ref.NamedExpressionReference;
+import ch.ullinger.dicexpression.ref.NamedExpressionSingletonStore;
 import ch.ullinger.dicexpression.ref.NamedExpressionStore;
+import ch.ullinger.dicexpression.ref.NamedExpressionStoreFactory;
 
 public class NamedExpressionReferenceTest {
 
@@ -17,15 +19,16 @@ public class NamedExpressionReferenceTest {
 
     @Before
     public void before() {
-        NamedExpressionStore store = NamedExpressionStore.getInstance();
-        store.getNamedExpressions().clear();
+        NamedExpressionStoreFactory.setStore(NamedExpressionSingletonStore.getInstance());
+        NamedExpressionStore store = NamedExpressionStoreFactory.getInstance();
+        store.clearExpressions();
 
-        store.addExpressionAlias("str", str);
+        store.addExpression("str", str);
     }
 
     @Test
     public void testDefault() {
-        assertEquals(1, NamedExpressionStore.getInstance().getNamedExpressions().size());
+        assertEquals(1, NamedExpressionStoreFactory.getInstance().getAllExpressions().size());
 
         NamedExpressionReference expressionReference = new NamedExpressionReference("str");
 
@@ -35,21 +38,21 @@ public class NamedExpressionReferenceTest {
 
     @Test
     public void testAddExpression() {
-        NamedExpressionStore.getInstance().addExpressionAlias("dex", new ConstantExpression(5));
+        NamedExpressionStoreFactory.getInstance().addExpression("dex", new ConstantExpression(5));
 
         assertEquals(5, new NamedExpressionReference("dex").evaluate());
     }
 
     @Test
     public void testReferenceInExpression() {
-        NamedExpressionStore.getInstance().addExpressionAlias("dex", new ConstantExpression(5));
+        NamedExpressionStoreFactory.getInstance().addExpression("dex", new ConstantExpression(5));
         MaxExpression max = new MaxExpression(new NamedExpressionReference("dex"), new NamedExpressionReference("str"));
-        NamedExpressionStore.getInstance().addExpressionAlias("max", max);
+        NamedExpressionStoreFactory.getInstance().addExpression("max", max);
 
         SumExpression sum = new SumExpression(new NamedExpressionReference("max"), new NamedExpressionReference("str"));
 
         assertEquals(5, max.evaluate());
-        assertEquals(5, NamedExpressionStore.getInstance().lookupExpression("max").evaluate());
+        assertEquals(5, NamedExpressionStoreFactory.getInstance().getExpression("max").evaluate());
         assertEquals(8, sum.evaluate());
     }
 }

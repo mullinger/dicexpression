@@ -1,37 +1,16 @@
 package ch.ullinger.dicexpression.ref;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import ch.ullinger.dicexpression.base.Expression;
 
-public class NamedExpressionStore {
+public interface NamedExpressionStore {
 
-    private static final NamedExpressionStore instance = new NamedExpressionStore();
+    public void addExpression(String name, Expression exp);
 
-    public static NamedExpressionStore getInstance() {
-        return instance;
-    }
+    public Expression getExpression(String name);
 
-    private Map<String, Expression> namedExpressions = new HashMap<String, Expression>();
+    public List<Expression> getAllExpressions();
 
-    private NamedExpressionStore() {}
-
-    public void addExpressionAlias(final String name, final Expression expression) {
-        namedExpressions.put(name, expression);
-    }
-
-    public Expression lookupExpression(final String name) {
-        Expression expression = namedExpressions.get(name);
-        return expression;
-    }
-
-    public Map<String, Expression> getNamedExpressions() {
-        return namedExpressions;
-    }
-
-    public void setNamedExpressions(Map<String, Expression> namedExpressions) {
-        this.namedExpressions = namedExpressions;
-    }
-
+    public void clearExpressions();
 }

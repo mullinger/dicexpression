@@ -1,13 +1,13 @@
 package dicexpression.ch.ullinger.dicexpression.op;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
 
 import ch.ullinger.dicexpression.base.ConstantExpression;
 import ch.ullinger.dicexpression.base.DicePoolExpression;
 import ch.ullinger.dicexpression.op.SumExpression;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Created by max on 18.02.16.
@@ -33,9 +33,10 @@ public class SumExpressionTest {
 
     @Test
     public void testMultipleConsantSum() throws Exception {
-        SumExpression sumExpression = new SumExpression(new ConstantExpression(1), new ConstantExpression(2), new ConstantExpression(3));
+        SumExpression sumExpression =
+                new SumExpression(new ConstantExpression(1), new ConstantExpression(-2), new ConstantExpression(3));
 
-        assertEquals(6, sumExpression.evaluate());
+        assertEquals(2, sumExpression.evaluate());
     }
 
 
