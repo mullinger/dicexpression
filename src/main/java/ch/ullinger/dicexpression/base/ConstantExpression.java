@@ -1,4 +1,4 @@
-package ch.ullinger.dicexpression;
+package ch.ullinger.dicexpression.base;
 
 /**
  * Created by max on 18.02.16.

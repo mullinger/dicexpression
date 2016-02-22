@@ -1,10 +1,10 @@
-package dicexpression.ch.ullinger.dicexpression;
+package dicexpression.ch.ullinger.dicexpression.op;
 
 import org.junit.Test;
 
-import ch.ullinger.dicexpression.ConstantExpression;
-import ch.ullinger.dicexpression.DicePoolExpression;
-import ch.ullinger.dicexpression.SumExpression;
+import ch.ullinger.dicexpression.base.ConstantExpression;
+import ch.ullinger.dicexpression.base.DicePoolExpression;
+import ch.ullinger.dicexpression.op.SumExpression;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

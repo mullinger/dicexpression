@@ -1,4 +1,4 @@
-package ch.ullinger.dicexpression;
+package ch.ullinger.dicexpression.base;
 
 public interface Expression {
 

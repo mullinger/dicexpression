@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import ch.ullinger.dicexpression.Expression;
+import ch.ullinger.dicexpression.base.Expression;
 
 public class ExpressionTest {
 

@@ -1,7 +1,9 @@
-package ch.ullinger.dicexpression;
+package ch.ullinger.dicexpression.op;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import ch.ullinger.dicexpression.base.Expression;
 
 public class MinExpression implements Expression {
 

@@ -1,8 +1,8 @@
-package dicexpression.ch.ullinger.dicexpression;
+package dicexpression.ch.ullinger.dicexpression.base;
 
 import org.junit.Test;
 
-import ch.ullinger.dicexpression.DicePoolExpression;
+import ch.ullinger.dicexpression.base.DicePoolExpression;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

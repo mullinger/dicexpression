@@ -1,4 +1,4 @@
-package ch.ullinger.dicexpression;
+package ch.ullinger.dicexpression.base;
 
 import ch.ullinger.dicexpression.rand.Rand;
 import ch.ullinger.dicexpression.rand.RandomFactory;
