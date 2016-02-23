@@ -33,4 +33,9 @@ public class MinExpression implements Expression {
         return result;
     }
 
+    @Override
+    public List<Expression> getSubExpressions() {
+        return expressions;
+    }
+
 }

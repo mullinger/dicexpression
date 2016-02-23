@@ -1,5 +1,8 @@
 package ch.ullinger.dicexpression.base;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ch.ullinger.dicexpression.rand.Rand;
 import ch.ullinger.dicexpression.rand.RandomFactory;
 
@@ -13,7 +16,7 @@ public class DicePoolExpression implements Expression {
 
     private Rand random = RandomFactory.getRandom();
 
-    public DicePoolExpression(int count, int sides) {
+    public DicePoolExpression(final int count, final int sides) {
         this.count = count;
         this.sides = sides;
     }
@@ -30,10 +33,15 @@ public class DicePoolExpression implements Expression {
     public int evaluate() {
         int sum = 0;
 
-        for (int i=0; i<count; i++) {
+        for (int i = 0; i < count; i++) {
             sum += random.rollDice(sides);
         }
 
         return sum;
+    }
+
+    @Override
+    public List<Expression> getSubExpressions() {
+        return new ArrayList<Expression>();
     }
 }

@@ -6,7 +6,7 @@ import ch.ullinger.dicexpression.base.Expression;
 
 public interface NamedExpressionStore {
 
-    public void addExpression(String name, Expression exp);
+    public void addExpression(String name, Expression exp) throws ExpressionLoopException;
 
     public Expression getExpression(String name);
 

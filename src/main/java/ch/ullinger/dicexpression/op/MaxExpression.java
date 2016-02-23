@@ -33,4 +33,9 @@ public class MaxExpression implements Expression {
         return result;
     }
 
+    @Override
+    public List<Expression> getSubExpressions() {
+        return expressions;
+    }
+
 }

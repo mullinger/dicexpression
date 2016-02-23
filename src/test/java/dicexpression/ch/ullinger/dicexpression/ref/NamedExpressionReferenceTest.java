@@ -6,8 +6,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ch.ullinger.dicexpression.base.ConstantExpression;
+import ch.ullinger.dicexpression.base.DicePoolExpression;
 import ch.ullinger.dicexpression.op.MaxExpression;
 import ch.ullinger.dicexpression.op.SumExpression;
+import ch.ullinger.dicexpression.ref.ExpressionLoopException;
 import ch.ullinger.dicexpression.ref.NamedExpressionReference;
 import ch.ullinger.dicexpression.ref.NamedExpressionSingletonStore;
 import ch.ullinger.dicexpression.ref.NamedExpressionStore;
@@ -18,7 +20,7 @@ public class NamedExpressionReferenceTest {
     private ConstantExpression str = new ConstantExpression(3);
 
     @Before
-    public void before() {
+    public void before() throws ExpressionLoopException {
         NamedExpressionStoreFactory.setStore(NamedExpressionSingletonStore.getInstance());
         NamedExpressionStore store = NamedExpressionStoreFactory.getInstance();
         store.clearExpressions();
@@ -37,14 +39,14 @@ public class NamedExpressionReferenceTest {
 
 
     @Test
-    public void testAddExpression() {
+    public void testAddExpression() throws ExpressionLoopException {
         NamedExpressionStoreFactory.getInstance().addExpression("dex", new ConstantExpression(5));
 
         assertEquals(5, new NamedExpressionReference("dex").evaluate());
     }
 
     @Test
-    public void testReferenceInExpression() {
+    public void testReferenceInExpression() throws ExpressionLoopException {
         NamedExpressionStoreFactory.getInstance().addExpression("dex", new ConstantExpression(5));
         MaxExpression max = new MaxExpression(new NamedExpressionReference("dex"), new NamedExpressionReference("str"));
         NamedExpressionStoreFactory.getInstance().addExpression("max", max);
@@ -55,4 +57,31 @@ public class NamedExpressionReferenceTest {
         assertEquals(5, NamedExpressionStoreFactory.getInstance().getExpression("max").evaluate());
         assertEquals(8, sum.evaluate());
     }
+
+    @Test(timeout = 1000, expected = ExpressionLoopException.class)
+    public void simpleLoopTest() throws ExpressionLoopException {
+        NamedExpressionStore store = NamedExpressionStoreFactory.getInstance();
+        NamedExpressionReference ref = new NamedExpressionReference("1");
+        store.addExpression("1", ref);
+
+        ref.evaluate();
+    }
+
+    @Test(timeout = 1000, expected = ExpressionLoopException.class)
+    public void moreLoopTest() throws ExpressionLoopException {
+        NamedExpressionStore store = NamedExpressionStoreFactory.getInstance();
+
+        store.addExpression("const", new ConstantExpression(0));
+        MaxExpression advantage = new MaxExpression(
+                new SumExpression(new DicePoolExpression(1, 20), new NamedExpressionReference("const")),
+                new SumExpression(new DicePoolExpression(1, 20), new NamedExpressionReference("const")));
+        store.addExpression("advantage", advantage);
+
+        System.out.println(advantage.evaluate());
+
+        store.addExpression("const", advantage);
+
+        System.out.println(advantage.evaluate());
+    }
+
 }

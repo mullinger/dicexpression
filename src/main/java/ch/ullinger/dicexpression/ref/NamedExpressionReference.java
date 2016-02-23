@@ -1,5 +1,8 @@
 package ch.ullinger.dicexpression.ref;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ch.ullinger.dicexpression.base.Expression;
 
 public class NamedExpressionReference implements Expression {
@@ -30,6 +33,15 @@ public class NamedExpressionReference implements Expression {
 
     public void setName(final String name) {
         this.name = name;
+    }
+
+
+    @Override
+    public List<Expression> getSubExpressions() {
+        Expression expression = NamedExpressionStoreFactory.getInstance().getExpression(name);
+        ArrayList<Expression> list = new ArrayList<Expression>();
+        list.add(expression);
+        return list;
     }
 
 }
