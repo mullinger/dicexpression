@@ -5,9 +5,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import ch.ullinger.dicexpression.base.ConstantExpression;
-import ch.ullinger.dicexpression.base.DicePoolExpression;
 import ch.ullinger.dicexpression.op.SumExpression;
+import ch.ullinger.dicexpression.util.E;
 
 /**
  * Created by max on 18.02.16.
@@ -25,7 +24,7 @@ public class SumExpressionTest {
 
     @Test
     public void testSingleConsantSum() throws Exception {
-        SumExpression sumExpression = new SumExpression(new ConstantExpression(3));
+        SumExpression sumExpression = E.sum(E.C(3));
 
         assertEquals(3, sumExpression.evaluate());
     }
@@ -33,8 +32,7 @@ public class SumExpressionTest {
 
     @Test
     public void testMultipleConsantSum() throws Exception {
-        SumExpression sumExpression =
-                new SumExpression(new ConstantExpression(1), new ConstantExpression(-2), new ConstantExpression(3));
+        SumExpression sumExpression = E.sum(E.C(1), E.C(-2), E.C(3));
 
         assertEquals(2, sumExpression.evaluate());
     }
@@ -42,7 +40,7 @@ public class SumExpressionTest {
 
     @Test(timeout = 10000)
     public void testDiceSum() throws Exception {
-        SumExpression sumExpression = new SumExpression(new DicePoolExpression(5, 6), new DicePoolExpression(2, 8));
+        SumExpression sumExpression = E.sum(E.D(5, 6), E.D(2, 8));
 
         boolean hasReachedMax = false;
         boolean hasReachedMin = false;

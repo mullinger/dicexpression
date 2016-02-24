@@ -59,7 +59,7 @@ public class NamedExpressionReferenceTest {
         assertEquals(8, sum.evaluate());
     }
 
-    @Test(timeout = 1000, expected = ExpressionLoopException.class)
+    @Test(timeout = 1000, expected = UnknownReferenceException.class)
     public void simpleLoopTest() throws ExpressionLoopException, UnknownReferenceException {
         NamedExpressionStore store = NamedExpressionStoreFactory.getInstance();
         NamedExpressionReference ref = new NamedExpressionReference("1");

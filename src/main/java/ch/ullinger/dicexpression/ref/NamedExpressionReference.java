@@ -10,10 +10,21 @@ public class NamedExpressionReference implements Expression {
 
     private String name;
 
-    public NamedExpressionReference(final String name) throws UnknownReferenceException {
-        setName(name);
+    public NamedExpressionReference(final String name) {
+        this.name = name;
     }
 
+    private NamedExpressionReference(final String name, final boolean secure) throws UnknownReferenceException {
+        if (!secure) {
+            this.name = name;
+        } else {
+            setName(name);
+        }
+    }
+
+    public static NamedExpressionReference secureReference(final String name) throws UnknownReferenceException {
+        return new NamedExpressionReference(name, true);
+    }
 
     @Override
     public int evaluate() {
