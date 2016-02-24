@@ -2,10 +2,8 @@ package ch.ullinger.dicexpression.ref;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import ch.ullinger.dicexpression.base.Expression;
 
@@ -30,34 +28,36 @@ public class NamedExpressionSingletonStore implements NamedExpressionStore {
 
     @Override
     public void addExpression(final String name, final Expression exp) throws ExpressionLoopException {
+        Expression oldValue = namedExpressions.get(name);
+
         if ((exp != null)) {
-            HashSet<String> names = new HashSet<String>();
-            names.add(name);
-            if (isInfiniteLoop(exp, names)) {
+            namedExpressions.put(name, exp);
+            if (isInfiniteLoop(exp, name)) {
+                namedExpressions.put(name, oldValue);
                 throw new ExpressionLoopException("Loop found when trying to add expression with name '" + name + "'");
             }
-            namedExpressions.put(name, exp);
         } else {
             namedExpressions.remove(name);
         }
     }
 
-    private boolean isInfiniteLoop(final Expression exp, final Set<String> refs) {
+    private boolean isInfiniteLoop(final Expression exp, final String ref) {
         if (exp instanceof NamedExpressionReference) {
             NamedExpressionReference reference = (NamedExpressionReference) exp;
-            boolean isNew = refs.add(reference.getName());
-            if (!isNew) {
+            if (ref.equals(reference.getName())) {
                 return true;
             } else {
                 List<Expression> expressions = reference.getSubExpressions();
                 for (Expression expression : expressions) {
-                    return isInfiniteLoop(expression, refs);
+                    return isInfiniteLoop(expression, ref);
                 }
             }
         } else {
             List<Expression> expressions = exp.getSubExpressions();
             for (Expression expression : expressions) {
-                return isInfiniteLoop(expression, refs);
+                if (isInfiniteLoop(expression, ref)) {
+                    return true;
+                };
             }
         }
 

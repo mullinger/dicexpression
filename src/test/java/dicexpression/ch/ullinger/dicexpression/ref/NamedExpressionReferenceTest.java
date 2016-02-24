@@ -67,7 +67,7 @@ public class NamedExpressionReferenceTest {
         ref.evaluate();
     }
 
-    @Test(timeout = 1000, expected = ExpressionLoopException.class)
+    @Test(/* timeout = 1000, */ expected = ExpressionLoopException.class)
     public void moreLoopTest() throws ExpressionLoopException {
         NamedExpressionStore store = NamedExpressionStoreFactory.getInstance();
 
