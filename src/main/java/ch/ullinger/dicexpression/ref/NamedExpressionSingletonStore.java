@@ -6,8 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 import ch.ullinger.dicexpression.base.Expression;
+import ch.ullinger.dicexpression.exception.ExpressionLoopException;
 
-public class NamedExpressionSingletonStore implements NamedExpressionStore {
+public class NamedExpressionSingletonStore extends NamedExpressionStore {
     private static final NamedExpressionStore instance = new NamedExpressionSingletonStore();
 
     public static NamedExpressionStore getInstance() {
@@ -39,29 +40,6 @@ public class NamedExpressionSingletonStore implements NamedExpressionStore {
         } else {
             namedExpressions.remove(name);
         }
-    }
-
-    private boolean isInfiniteLoop(final Expression exp, final String ref) {
-        if (exp instanceof NamedExpressionReference) {
-            NamedExpressionReference reference = (NamedExpressionReference) exp;
-            if (ref.equals(reference.getName())) {
-                return true;
-            } else {
-                List<Expression> expressions = reference.getSubExpressions();
-                for (Expression expression : expressions) {
-                    return isInfiniteLoop(expression, ref);
-                }
-            }
-        } else {
-            List<Expression> expressions = exp.getSubExpressions();
-            for (Expression expression : expressions) {
-                if (isInfiniteLoop(expression, ref)) {
-                    return true;
-                };
-            }
-        }
-
-        return false;
     }
 
 

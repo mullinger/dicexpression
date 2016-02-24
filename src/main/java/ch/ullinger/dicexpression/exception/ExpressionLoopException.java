@@ -1,4 +1,4 @@
-package ch.ullinger.dicexpression.ref;
+package ch.ullinger.dicexpression.exception;
 
 public class ExpressionLoopException extends Exception {
 
